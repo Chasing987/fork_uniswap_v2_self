@@ -551,6 +551,11 @@
     "@nomicfoundation/solidity-analyzer-linux-x64-musl" "0.1.2"
     "@nomicfoundation/solidity-analyzer-win32-x64-msvc" "0.1.2"
 
+"@openzeppelin/contracts@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.npmmirror.com/@openzeppelin/contracts/-/contracts-2.3.0.tgz"
+  integrity sha512-lf8C3oULQAnsu3OTRP4tP5/ddfil6l65Lg3JQCwAIgc99vZ1jz5qeBoETGGGmczxt+bIyMI06WPP2apC74EZag==
+
 "@pkgjs/parseargs@^0.11.0":
   version "0.11.0"
   resolved "https://registry.npmmirror.com/@pkgjs/parseargs/-/parseargs-0.11.0.tgz"
