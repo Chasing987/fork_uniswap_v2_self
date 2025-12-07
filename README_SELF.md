@@ -75,3 +75,34 @@ npm install --save-dev @uniswap/v2-core
 npx hardhat run scripts/deploy.js
 ```
 
+# 修改pair init code
+
+1. 在v2-core中的UniswapV2Factory合约中，添加以下方法
+
+```solidity
+bytes32 public constant INIT_CODE_PAIR_HASH = keccak256(type(UniswapV2Pair).creationCode);
+```
+
+2. 在`scripts/deploy.js`部署脚本中，调用上述的代码计算`pair init code`
+
+```js
+  //打印下init合约用于检查create2前后是否一致
+  console.log("pair init code", await factory.INIT_CODE_PAIR_HASH());
+```
+
+3. 将打印出来的`pair init code`的值将`fork_uniswap_v2_self/contracts/v2-periphery/libraries/UniswapV2Library.sol`目录下的hash code进行替换
+
+```solidity
+// calculates the CREATE2 address for a pair without making any external calls
+    function pairFor(address factory, address tokenA, address tokenB) internal pure returns (address pair) {
+        (address token0, address token1) = sortTokens(tokenA, tokenB);
+        pair = address(uint(keccak256(abi.encodePacked(
+                hex'ff',
+                factory,
+                keccak256(abi.encodePacked(token0, token1)),
+                hex'215a032792ab9f4a5eb14f1f4c1daed5017b1eee4de72ddb42e06c967b16c5d4' // init code hash
+            ))));
+    }
+```
+
+这样做的目的是，使用create2方法能知道factory部署地址。
